@@ -1,0 +1,15 @@
+.gallery {
+  display: flex;
+  max-width: 1440px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+    
+  }
+  
+  .galleryItem {
+    flex-basis: auto;
+    margin: 20px;
+    
+  }
