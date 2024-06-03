@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #e0ffff;
 }
 
 .logo {
@@ -41,5 +42,6 @@ ul {
 }
 
 .read-the-docs {
+  
   color: #888;
 }

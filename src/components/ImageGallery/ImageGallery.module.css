@@ -1,15 +1,14 @@
 .gallery {
   display: flex;
-  max-width: 1440px;
   flex-wrap: wrap;
+  max-width: 1440px;
+  gap: 16px;
   justify-content: center;
-  align-items: flex-start;
-  gap: 24px;
-    
+  list-style: none;
+  padding: 0;
+  }
+ 
+  .image {
+    flex-basis: calc((100% - 3 * 16px) / 3);
   }
   
-  .galleryItem {
-    flex-basis: auto;
-    margin: 20px;
-    
-  }

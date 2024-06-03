@@ -8,68 +8,69 @@ import ErrorMessage from './components/ErrorMessage/ErrorMessage'
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn'
 import ImageModal from './components/ImageModal/ImageModal'
 import { Toaster } from 'react-hot-toast';
+
+
 const App = () => {
- 
   const [images, setImages] = useState([]);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [modalImage, setModalImage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   useEffect(() => {
-    if (query === '')return;
-    
+    if (!query) return;
+
     async function getData() {
       try {
         setLoading(true);
-        setError(false);
-        const data = await fetchImages(query, page);
-        setImages(prevImages => {
-          return [...prevImages, ...data.results];
-        });
-    
-      } catch {
-        setError('Failed to fetch images. Please try again.');
+      setError(null);
+      const data = await fetchImages(query, page);
+        setImages(prevImages => [...prevImages, ...data.results]);
+      }
+        catch (error) {
+        setError('Something went wrong. Please try again later.');
       } finally {
         setLoading(false);
       }
     }
-    getData();
-  }, [page, query]);
 
-  const handleSearch = (newQuery) => {
-   // if (newQuery !== query) {
-      setQuery(newQuery);
-      setImages([]);
-      setPage(1);
-    
+    getData();
+  }, [query, page]);
+
+  const handleSearchSubmit = (searchQuery) => {
+    setQuery(searchQuery);
+    setImages([]);
+    setPage(1);
   };
-  const openModal = (image) => {
-    setModalImage(image);
-     setShowModal(true);
-   };
-   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
-    
+
+  const handleLoadMore = () => {
+    setPage(prevPage => prevPage + 1);
   };
-  const closeModal = () => {
-    setShowModal(false);
-    setModalImage(null);
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
   };
-  return <>
-  <SearchBar onSubmit={handleSearch} />
-  {images.length > 0 && <ImageGallery images={images}  openModal={openModal} />}
-  {loading && <Loader />}
-  {error && <ErrorMessage message={error} />}
-  {images.length > 0 && !loading && <LoadMoreBtn onClick={handleLoadMore} />}
- 
-  {modalImage && (
-        <ImageModal isOpen={showModal} onRequestClose={closeModal} image={modalImage} />
-      )}
-      <Toaster position="top-right" />
-  </>
-}
+
+  const handleModalClose = () => {
+    setSelectedImage(null);
+  };
+
+  return (
+    <div>
+      <SearchBar onSubmit={handleSearchSubmit} />
+      {error && <ErrorMessage message={error} />}
+      <ImageGallery images={images} onImageClick={handleImageClick} />
+      {loading && <Loader />}
+      {images.length > 0 && !loading && <LoadMoreBtn onClick={handleLoadMore} />}
+      <ImageModal isOpen={!!selectedImage} onRequestClose={handleModalClose} image={selectedImage} />
+      <Toaster position="top-right" reverseOrder={false} />
+    </div>
+  );
+};
+
+
+
 
 export default App
 
