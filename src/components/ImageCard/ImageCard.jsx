@@ -5,8 +5,8 @@ const ImageCard = ({ image, onImageClick }) => {
   };
 
   return (
-    <div className={styles.card} onClick={handleClick}>
-      <img src={image.urls.small} alt={image.alt_description} className={styles.image} />
+    <div className={styles.card}>
+      <img src={image.urls.small} alt={image.alt_description} onClick={handleClick} className={styles.image} />
     </div>
   );
 };
