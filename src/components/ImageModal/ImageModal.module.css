@@ -19,8 +19,13 @@
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
   }
-  
+ 
   .image {
     max-width: 100%;
     height: auto;
   }
+  .img {
+    height: calc(100vh - 40px);
+    width: 100px;
+  }
+  
